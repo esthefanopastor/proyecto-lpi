@@ -225,6 +225,7 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 			}
 		} else {
 			clearInputs();
+			selectedID = -1;
 		}
 
 	}

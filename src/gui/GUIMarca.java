@@ -173,6 +173,7 @@ public class GUIMarca extends JFrame implements ActionListener, MouseListener {
 			}
 		} else {
 			clearInputs();
+			selectedID = -1;
 		}
 
 	}
