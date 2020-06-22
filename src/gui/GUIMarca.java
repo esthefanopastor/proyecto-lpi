@@ -146,29 +146,33 @@ public class GUIMarca extends JFrame implements ActionListener, MouseListener {
 	}
 
 	protected void btnAgregarActionPerformed(ActionEvent e) {
-		String nombre = txtNombre.getText();
-		String estado = txtEstado.getText();
+		if (txtNombre.getText() == "") {
+			String nombre = txtNombre.getText();
+			String estado = txtEstado.getText();
 
-		if (!nombre.matches(Validaciones.NOMBRE_MARCA)) {
-			message("El nombre deben ser letras");
-		} else if (!estado.matches(Validaciones.ESTADO_MARCA)) {
-			message("El estado debe ser entre 2 a 45 caracteres");
-		} else {
-			Marca marca = new Marca();
-			marca.setNombre(nombre);
-			marca.setEstado(estado);
-
-			MarcaModel marcaModel = new MarcaModel();
-			int response = marcaModel.insertMarca(marca);
-
-			if (response > 0) {
-				clearInputs();
-				listarMarcas();
-				selectedID = -1;
-				message("Marca insertada correctamente");
+			if (!nombre.matches(Validaciones.NOMBRE_MARCA)) {
+				message("El nombre deben ser letras");
+			} else if (!estado.matches(Validaciones.ESTADO_MARCA)) {
+				message("El estado debe ser entre 2 a 45 caracteres");
 			} else {
-				message("Error en el registro");
+				Marca marca = new Marca();
+				marca.setNombre(nombre);
+				marca.setEstado(estado);
+
+				MarcaModel marcaModel = new MarcaModel();
+				int response = marcaModel.insertMarca(marca);
+
+				if (response > 0) {
+					clearInputs();
+					listarMarcas();
+					selectedID = -1;
+					message("Marca insertada correctamente");
+				} else {
+					message("Error en el registro");
+				}
 			}
+		} else {
+			clearInputs();
 		}
 
 	}
