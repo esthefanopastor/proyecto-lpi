@@ -16,4 +16,6 @@ public class Validaciones {
 
 	public static final String NOMBRE_MARCA = "[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ\\s]{2,45}";
 	public static final String ESTADO_MARCA = "[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ\\s]{2,45}";
+	
+	public static final String PASSWORD = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])([A-Za-z\\d$@$!%*?&]|[^ ]){8,45}$/";
 }
