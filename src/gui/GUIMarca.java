@@ -146,7 +146,7 @@ public class GUIMarca extends JFrame implements ActionListener, MouseListener {
 	}
 
 	protected void btnAgregarActionPerformed(ActionEvent e) {
-		if (txtNombre.getText() == "") {
+		if (selectedID == -1) {
 			String nombre = txtNombre.getText();
 			String estado = txtEstado.getText();
 

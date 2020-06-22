@@ -22,7 +22,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-
 import entity.Usuario;
 import model.UsuarioModel;
 import util.Validaciones;
@@ -124,53 +123,48 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 
 		table = new JTable();
 		this.table.addMouseListener(this);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"idUsuario", "Nombre", "Apellido", "DNI", "Login", "Password"
-			}
-		));
+		table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "idUsuario", "Nombre", "Apellido", "DNI", "Login", "Password" }));
 		scrollPane.setViewportView(table);
-		
+
 		lblNombre_1 = new JLabel("Nombre");
 		lblNombre_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNombre_1.setBounds(66, 84, 69, 16);
 		contentPane.add(lblNombre_1);
-		
+
 		lblNombre_2 = new JLabel("Apellido");
 		lblNombre_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNombre_2.setBounds(66, 120, 69, 16);
 		contentPane.add(lblNombre_2);
-		
+
 		lblNombre_3 = new JLabel("Login");
 		lblNombre_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNombre_3.setBounds(66, 191, 69, 25);
 		contentPane.add(lblNombre_3);
-		
+
 		lblNombre_4 = new JLabel("Password");
 		lblNombre_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNombre_4.setBounds(66, 236, 84, 16);
 		contentPane.add(lblNombre_4);
-		
+
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(209, 84, 211, 25);
 		contentPane.add(txtNombre);
-		
+
 		txtDni = new JTextField();
 		txtDni.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtDni.setColumns(10);
 		txtDni.setBounds(209, 159, 211, 25);
 		contentPane.add(txtDni);
-		
+
 		txtLogin = new JTextField();
 		txtLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtLogin.setColumns(10);
 		txtLogin.setBounds(209, 195, 211, 25);
 		contentPane.add(txtLogin);
-		
+
 		txtPassword = new JTextField();
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtPassword.setColumns(10);
@@ -193,7 +187,7 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 	}
 
 	protected void btnAgregarActionPerformed(ActionEvent e) {
-		if (txtNombre.getText() == "") {
+		if (selectedID == -1) {
 			String nombre = txtNombre.getText();
 			String apellido = txtApellido.getText();
 			String dni = txtDni.getText();
@@ -204,11 +198,11 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 				message("El nombre deben ser letras");
 			} else if (!apellido.matches(Validaciones.TEXTO)) {
 				message("El apellido ser entre 2 a 20 caracteres");
-			}else if (!dni.matches(Validaciones.DNI)) {
+			} else if (!dni.matches(Validaciones.DNI)) {
 				message("El DNI debe tener 8 caracteres");
-			}else if (!login.matches(Validaciones.CORREO)) {
+			} else if (!login.matches(Validaciones.CORREO)) {
 				message("El correo debe ser aaaaa@aaa.aaa");
-			}else if (!password.matches(Validaciones.PASSWORD)) {
+			} else if (!password.matches(Validaciones.TEXTO)) {
 				message("El password debe tener mínimo 8 caracteres, maxímo 45, Al menos una letra mayúscula, Al menos una letra minucula, Al menos un dígito, No espacios en blanco, Al menos 1 caracter especial");
 			} else {
 				Usuario usuario = new Usuario();
@@ -245,19 +239,18 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 			String login = txtLogin.getText();
 			String password = txtPassword.getText();
 
-
 			if (!nombre.matches(Validaciones.TEXTO)) {
 				message("El nombre deben ser letras");
 			} else if (!apellido.matches(Validaciones.TEXTO)) {
 				message("El apellido ser entre 2 a 20 caracteres");
-			}else if (!dni.matches(Validaciones.DNI)) {
+			} else if (!dni.matches(Validaciones.DNI)) {
 				message("El DNI debe tener 8 caracteres");
-			}else if (!login.matches(Validaciones.CORREO)) {
+			} else if (!login.matches(Validaciones.CORREO)) {
 				message("El correo debe ser aaaaa@aaa.aaa");
-			}else if (!password.matches(Validaciones.PASSWORD)) {
+			} else if (!password.matches(Validaciones.TEXTO)) {
 				message("El password debe tener mínimo 8 caracteres, maxímo 45, Al menos una letra mayúscula, Al menos una letra minucula, Al menos un dígito, No espacios en blanco, Al menos 1 caracter especial");
 			} else
-				
+
 			{
 				Usuario usuario = new Usuario();
 				usuario.setIdUsuario(selectedID);
@@ -287,7 +280,7 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 			message("Debe seleccionar una fila");
 		} else {
 			UsuarioModel usuarioModel = new UsuarioModel();
-		
+
 			int response = usuarioModel.eliminarUsuario(selectedID);
 			if (response > 0) {
 				listarUsuario();
@@ -333,7 +326,7 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 		txtDni.setText(dni);
 		txtLogin.setText(login);
 		txtPassword.setText(password);
-		
+
 	}
 
 	void message(String message) {
@@ -354,10 +347,11 @@ public class GUIUsuario extends JFrame implements ActionListener, MouseListener 
 		tableModel.setRowCount(0);
 
 		UsuarioModel usuarioModel = new UsuarioModel();
-		List<Usuario> usuarios =  usuarioModel.listaUsuario();
+		List<Usuario> usuarios = usuarioModel.listaUsuario();
 
 		for (Usuario usuario : usuarios) {
-			Object[] row = { usuario.getIdUsuario(), usuario.getNombre(), usuario.getApellido(), usuario.getDni(), usuario.getLogin(), usuario.getPassword()};
+			Object[] row = { usuario.getIdUsuario(), usuario.getNombre(), usuario.getApellido(), usuario.getDni(),
+					usuario.getLogin(), usuario.getPassword() };
 			tableModel.addRow(row);
 		}
 	}
